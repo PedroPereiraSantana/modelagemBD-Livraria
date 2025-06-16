@@ -1,47 +1,65 @@
 # 📚 Modelagem de Banco de Dados - Livraria
 
-Este repositório contém a modelagem de banco de dados para uma **livraria**, com foco nas etapas de **modelagem lógica e física**, implementadas em SQL. O objetivo é estruturar os dados necessários para o gerenciamento completo de vendas, estoque, clientes, avaliações de livros, pagamentos e devoluções.
-
-## 📂 Arquivo do Projeto
-
-- `LivrariaFisico.sql`: Script SQL com a definição completa do banco de dados (tabelas, atributos, chaves primárias e estrangeiras).
+Este repositório contém o projeto de modelagem de dados para uma livraria, abordando os modelos **conceitual**, **lógico** e **físico**, com foco em controle de livros, vendas, estoque, fornecedores e mais.
 
 ---
 
-## 🧮 Modelo Lógico
+## 📐 Modelo Conceitual
 
-O modelo lógico define a estrutura e os relacionamentos das tabelas da livraria, adaptando o modelo conceitual para o formato relacional.
+O modelo conceitual foi desenvolvido com base em um levantamento de requisitos típicos de uma livraria física, identificando entidades principais como:
 
-### Principais Tabelas
+- **Livro**
+- **Cliente**
+- **Funcionário**
+- **Venda**
+- **Estoque**
+- **Fornecedor**
+- **Compra**
+- **Editora**
+- **Autor**
+- **Categoria**
+- **Item de Venda**
+- **Promoções**
+- **Formas de Pagamento**
+- **Endereço**
 
-- **Cliente**: Armazena dados pessoais do cliente e chave estrangeira para endereço.
-- **Produto_Iten_pedido**: Une informações de livros com pedidos, armazenando quantidade, preço e estoque.
-- **Estoque** e **Historico_estoque**: Controlam a disponibilidade e movimentação de produtos.
-- **Pagamento**: Registra forma, valor e status do pagamento.
-- **Historico_pedido_Pedido**: Representa o pedido e seu histórico de status.
-- **Administrador**: Controle de acesso e operações internas.
-- **Cupom** e **Campanhas_de_marketing**: Promoções vinculadas a campanhas específicas.
-- **Avaliacao_do_produto**: Avaliações e comentários feitos pelos clientes sobre os produtos.
-- **Devolucao**: Gerencia as devoluções dos pedidos.
-- **Endereco**: Endereços associados aos clientes.
+Relacionamentos principais:
+- Um livro pode ter vários autores (relação `possui`)
+- Um livro pode pertencer a várias categorias (relação `contem`)
+- Uma venda é feita por um funcionário para um cliente
+- As compras são feitas de fornecedores por funcionários
+- Um livro pode estar associado a uma promoção, item de venda e estoque
 
 ---
 
-## 🏗️ Modelo Físico
+## 🧾 Modelo Lógico
 
-O modelo físico está implementado em SQL, com as seguintes características:
+O modelo lógico é representado através das tabelas relacionais com os devidos tipos de dados, chaves primárias e estrangeiras, e relacionamentos normalizados.
 
-- Criação das tabelas com `CREATE TABLE`
-- Tipagem de dados (`INT`, `VARCHAR`, `FLOAT`, `DATE`)
-- Definição de **chaves primárias**
-- Criação de **chaves estrangeiras** com regras de integridade (`ON DELETE CASCADE`, `RESTRICT`, `SET NULL` etc.)
+Principais características:
+- Tabelas com nomes descritivos e normalizadas
+- Uso de tipos como `INT`, `VARCHAR`, `DATE`, `FLOAT`
+- Relacionamentos implementados com `FOREIGN KEY` e ações de deleção (`ON DELETE`)
+- Evita redundância de dados com entidades auxiliares como `ItemDeVenda` e `ItemDaCompra`
 
-### Exemplo de tabela: `Cliente`
-```sql
-CREATE TABLE Cliente (
-    id_cliente INT PRIMARY KEY,
-    nome VARCHAR,
-    email VARCHAR,
-    telefone VARCHAR,
-    fk_endereco_endereco_PK INT
-);
+---
+
+## 🗃️ Modelo Físico
+
+O modelo físico foi implementado em SQL, compatível com o MySQL/MariaDB. O script disponível no arquivo [`LivrariaFisicoBD.sql`](./LivrariaFisicoBD.sql) contém:
+
+- Criação de todas as tabelas
+- Definição de chaves primárias
+- Definição de chaves estrangeiras com `ALTER TABLE`
+- Tratamento de relacionamentos com regras de integridade referencial
+- Estrutura duplicada da tabela `endereco` (pode ser ajustada)
+
+⚠️ Algumas partes do script ainda contêm valores indefinidos (`???`) que devem ser ajustados, principalmente nos relacionamentos da tabela `endereco`.
+
+---
+
+## 🛠️ Como utilizar
+
+1. Clone o repositório:
+   ```bash
+   git clone https://github.com/seu-usuario/seu-repositorio.git
