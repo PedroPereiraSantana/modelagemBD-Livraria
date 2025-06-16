@@ -1,212 +1,233 @@
-/* Lógico_1: */
+/* logicoLivraria: */
 
-CREATE TABLE Estoque  (
+CREATE TABLE Livro (
+    id_livro INT PRIMARY KEY,
+    titulo VARCHAR,
+    isbn VARCHAR,
+    idioma VARCHAR,
+    ano_publicacao DATE,
+    preco_venda FLOAT,
+    sinopse VARCHAR,
+    fk_Editora_id_editora INT,
+    fk_Estoque_id_estoque INT,
+    fk_Promocoes_id_promocao INT,
+    fk_ItemDeVenda_id_item_venda INT
+);
+
+CREATE TABLE Funcionario (
+    id_funcionario INT PRIMARY KEY,
+    nome VARCHAR,
+    cargo VARCHAR,
+    cpf VARCHAR,
+    telefone VARCHAR,
+    data_contratacao DATE
+);
+
+CREATE TABLE Venda (
+    id_venda INT PRIMARY KEY,
+    data_venda DATE,
+    total FLOAT,
+    fk_Funcionario_id_funcionario INT,
+    fk_Cliente_id_cliente INT,
+    fk_ItemDeVenda_id_item_venda INT
+);
+
+CREATE TABLE Estoque (
     id_estoque INT PRIMARY KEY,
     quantidade_disponivel INT,
-    localizacao VARCHAR
+    localização VARCHAR
 );
 
-CREATE TABLE Historico_estoque (
-    id_historico_estoque INT PRIMARY KEY,
-    data_modificacao DATE,
-    tipo_movimentacao VARCHAR,
-    quantidade_movimentada INT
+CREATE TABLE Categoria (
+    id_categoria INT PRIMARY KEY,
+    nome VARCHAR,
+    descricao VARCHAR
 );
 
-CREATE TABLE Pagamento (
-    id_pagamento INT PRIMARY KEY,
-    forma_pagamento VARCHAR,
-    status VARCHAR,
-    valor_pago FLOAT
+CREATE TABLE Autor (
+    id_autor INT PRIMARY KEY,
+    nome VARCHAR,
+    biografia VARCHAR,
+    nacionalidade VARCHAR
+);
+
+CREATE TABLE Editora (
+    id_editora INT PRIMARY KEY,
+    nome VARCHAR,
+    cnpj VARCHAR,
+    telefone VARCHAR,
+    fk_endereco_endereco_PK INT
 );
 
 CREATE TABLE Cliente (
     id_cliente INT PRIMARY KEY,
     nome VARCHAR,
-    email VARCHAR,
+    cpf VARCHAR,
+    telefone VARCHAR,
+    email VARCHAR
+);
+
+CREATE TABLE ItemDeVenda (
+    id_item_venda INT PRIMARY KEY,
+    quantidade INT,
+    preco_unitario FLOAT,
+    subtotal FLOAT
+);
+
+CREATE TABLE Fornecedor (
+    id_fornecedor INT PRIMARY KEY,
+    nome VARCHAR,
+    cnpj VARCHAR,
     telefone VARCHAR,
     fk_endereco_endereco_PK INT
 );
 
-CREATE TABLE Produto_Iten_pedido (
-    id_produto INT,
-    nome_produto VARCHAR,
-    descricao_produto VARCHAR,
-    preco FLOAT,
-    categoria VARCHAR,
-    url_imagem VARCHAR,
-    id_item_pedido INT,
+CREATE TABLE Compra (
+    id_compra INT PRIMARY KEY,
+    data_compra DATE,
+    total FLOAT,
+    fk_Fornecedor_id_fornecedor INT,
+    fk_Funcionario_id_funcionario INT
+);
+
+CREATE TABLE ItemDaCompra (
+    id_item_compra INT PRIMARY KEY,
     quantidade INT,
     preco_unitario FLOAT,
-    fk_Pedido_id_pedido INT,
-    fk_Estoque _id_estoque INT,
-    PRIMARY KEY (id_produto, id_item_pedido)
+    subtotal FLOAT,
+    fk_Estoque_id_estoque INT,
+    fk_Compra_id_compra INT
 );
 
-CREATE TABLE Avaliacao_do_produto (
-    id_avaliacao INT PRIMARY KEY,
-    nota INT,
-    comentario VARCHAR,
-    data_avaliacao DATE,
-    fk_Produto_Iten_pedido_id_produto INT,
-    fk_Produto_Iten_pedido_id_item_pedido INT
+CREATE TABLE FormasDePagamento (
+    id_forma_pagamento INT PRIMARY KEY,
+    tipo VARCHAR,
+    descricao VARCHAR,
+    fk_Venda_id_venda INT
 );
 
-CREATE TABLE Campanhas_de_marketing (
-    id_campanha INT PRIMARY KEY,
-    nome_campanha VARCHAR,
+CREATE TABLE Promocoes (
+    id_promocao INT PRIMARY KEY,
+    descricao VARCHAR,
     data_inicio DATE,
     data_fim DATE,
-    orcamento FLOAT,
-    publico_alvo VARCHAR
-);
-
-CREATE TABLE Historico_pedido_Pedido (
-    id_historico_pedido INT,
-    data_historico DATE,
-    descricao_status VARCHAR,
-    id_pedido INT,
-    data_pedido DATE,
-    status_pedido VARCHAR,
-    fk_Cliente_id_cliente INT,
-    fk_Devolucao_id_devolucao INT,
-    PRIMARY KEY (id_historico_pedido, id_pedido)
-);
-
-CREATE TABLE Administrador (
-    id_administrador INT PRIMARY KEY,
-    nome_usuario VARCHAR,
-    senha_seguranca VARCHAR,
-    email VARCHAR,
-    nivel_acesso VARCHAR,
-    fk_Historico_estoque_id_historico_estoque INT
-);
-
-CREATE TABLE Devolucao (
-    id_devolucao INT PRIMARY KEY,
-    data_devolucao DATE,
-    motivo_devolucao VARCHAR,
-    status_devolucao VARCHAR
-);
-
-CREATE TABLE Cupom (
-    id_cupom INT PRIMARY KEY,
-    codigo_cupom VARCHAR,
-    valor_desconto FLOAT,
-    data_inicio_validade DATE,
-    data_fim_validade DATE,
-    fk_Pedido_id_pedido INT,
-    fk_Campanhas_de_marketing_id_campanha INT
+    percentual_desconto FLOAT
 );
 
 CREATE TABLE endereco (
     endereco_PK INT NOT NULL,
-    id_endereco INT,
-    CEP VARCHAR,
-    numero INT,
-    pais VARCHAR,
-    rua INT,
-    bairro VARCHAR,
-    PRIMARY KEY (endereco_PK, id_endereco)
+    ruaEndereco VARCHAR,
+    numeroEndereco INT,
+    cepEndereco VARCHAR,
+    id_enderco INT,
+    PRIMARY KEY (endereco_PK, id_enderco)
 );
 
-CREATE TABLE Realiza (
-    fk_Cliente_id_cliente INT,
-    fk_Avaliacao_do_produto_id_avaliacao INT
+CREATE TABLE endereco (
+    endereco_PK INT NOT NULL,
+    ruaEndereco VARCHAR,
+    id_enderco INT,
+    numeroEndereco INT,
+    cepEndereco VARCHAR,
+    PRIMARY KEY (endereco_PK, id_enderco)
 );
 
-CREATE TABLE Atualiza (
-    fk_Historico_estoque_id_historico_estoque INT,
-    fk_Produto_Iten_pedido_id_produto INT,
-    fk_Produto_Iten_pedido_id_item_pedido INT
+CREATE TABLE possui (
+    fk_Livro_id_livro INT,
+    fk_Autor_id_autor INT
 );
 
-CREATE TABLE Efetua (
-    fk_Pedido_id_pedido INT,
-    fk_Pagamento_id_pagamento INT
-);
-
-CREATE TABLE Administra (
-    fk_Estoque _id_estoque INT,
-    fk_Administrador_id_administrador INT
+CREATE TABLE contem (
+    fk_Categoria_id_categoria INT,
+    fk_Livro_id_livro INT
 );
  
-ALTER TABLE Cliente ADD CONSTRAINT FK_Cliente_2
-    FOREIGN KEY (fk_endereco_endereco_PK, ???)
-    REFERENCES endereco (endereco_PK, ???)
-    ON DELETE NO ACTION;
- 
-ALTER TABLE Produto_Iten_pedido ADD CONSTRAINT FK_Produto_Iten_pedido_2
-    FOREIGN KEY (fk_Pedido_id_pedido)
-    REFERENCES ??? (???);
- 
-ALTER TABLE Produto_Iten_pedido ADD CONSTRAINT FK_Produto_Iten_pedido_3
-    FOREIGN KEY (fk_Estoque _id_estoque)
-    REFERENCES Estoque  (id_estoque)
-    ON DELETE CASCADE;
- 
-ALTER TABLE Avaliacao_do_produto ADD CONSTRAINT FK_Avaliacao_do_produto_2
-    FOREIGN KEY (fk_Produto_Iten_pedido_id_produto, fk_Produto_Iten_pedido_id_item_pedido)
-    REFERENCES Produto_Iten_pedido (id_produto, id_item_pedido)
-    ON DELETE CASCADE;
- 
-ALTER TABLE Historico_pedido_Pedido ADD CONSTRAINT FK_Historico_pedido_Pedido_2
-    FOREIGN KEY (fk_Cliente_id_cliente)
-    REFERENCES Cliente (id_cliente);
- 
-ALTER TABLE Historico_pedido_Pedido ADD CONSTRAINT FK_Historico_pedido_Pedido_3
-    FOREIGN KEY (fk_Devolucao_id_devolucao)
-    REFERENCES Devolucao (id_devolucao);
- 
-ALTER TABLE Administrador ADD CONSTRAINT FK_Administrador_2
-    FOREIGN KEY (fk_Historico_estoque_id_historico_estoque)
-    REFERENCES Historico_estoque (id_historico_estoque)
+ALTER TABLE Livro ADD CONSTRAINT FK_Livro_2
+    FOREIGN KEY (fk_Editora_id_editora)
+    REFERENCES Editora (id_editora)
     ON DELETE RESTRICT;
  
-ALTER TABLE Cupom ADD CONSTRAINT FK_Cupom_2
-    FOREIGN KEY (fk_Pedido_id_pedido)
-    REFERENCES ??? (???);
+ALTER TABLE Livro ADD CONSTRAINT FK_Livro_3
+    FOREIGN KEY (fk_Estoque_id_estoque)
+    REFERENCES Estoque (id_estoque)
+    ON DELETE CASCADE;
  
-ALTER TABLE Cupom ADD CONSTRAINT FK_Cupom_3
-    FOREIGN KEY (fk_Campanhas_de_marketing_id_campanha)
-    REFERENCES Campanhas_de_marketing (id_campanha)
+ALTER TABLE Livro ADD CONSTRAINT FK_Livro_4
+    FOREIGN KEY (fk_Promocoes_id_promocao)
+    REFERENCES Promocoes (id_promocao)
+    ON DELETE CASCADE;
+ 
+ALTER TABLE Livro ADD CONSTRAINT FK_Livro_5
+    FOREIGN KEY (fk_ItemDeVenda_id_item_venda)
+    REFERENCES ItemDeVenda (id_item_venda)
     ON DELETE RESTRICT;
  
-ALTER TABLE Realiza ADD CONSTRAINT FK_Realiza_1
+ALTER TABLE Venda ADD CONSTRAINT FK_Venda_2
+    FOREIGN KEY (fk_Funcionario_id_funcionario)
+    REFERENCES Funcionario (id_funcionario)
+    ON DELETE CASCADE;
+ 
+ALTER TABLE Venda ADD CONSTRAINT FK_Venda_3
     FOREIGN KEY (fk_Cliente_id_cliente)
     REFERENCES Cliente (id_cliente)
     ON DELETE RESTRICT;
  
-ALTER TABLE Realiza ADD CONSTRAINT FK_Realiza_2
-    FOREIGN KEY (fk_Avaliacao_do_produto_id_avaliacao)
-    REFERENCES Avaliacao_do_produto (id_avaliacao)
+ALTER TABLE Venda ADD CONSTRAINT FK_Venda_4
+    FOREIGN KEY (fk_ItemDeVenda_id_item_venda)
+    REFERENCES ItemDeVenda (id_item_venda)
+    ON DELETE RESTRICT;
+ 
+ALTER TABLE Editora ADD CONSTRAINT FK_Editora_2
+    FOREIGN KEY (fk_endereco_endereco_PK, ???)
+    REFERENCES endereco (endereco_PK, ???)
+    ON DELETE NO ACTION;
+ 
+ALTER TABLE Fornecedor ADD CONSTRAINT FK_Fornecedor_2
+    FOREIGN KEY (fk_endereco_endereco_PK, ???)
+    REFERENCES endereco (endereco_PK, ???)
+    ON DELETE NO ACTION;
+ 
+ALTER TABLE Compra ADD CONSTRAINT FK_Compra_2
+    FOREIGN KEY (fk_Fornecedor_id_fornecedor)
+    REFERENCES Fornecedor (id_fornecedor)
+    ON DELETE CASCADE;
+ 
+ALTER TABLE Compra ADD CONSTRAINT FK_Compra_3
+    FOREIGN KEY (fk_Funcionario_id_funcionario)
+    REFERENCES Funcionario (id_funcionario)
+    ON DELETE CASCADE;
+ 
+ALTER TABLE ItemDaCompra ADD CONSTRAINT FK_ItemDaCompra_2
+    FOREIGN KEY (fk_Estoque_id_estoque)
+    REFERENCES Estoque (id_estoque)
+    ON DELETE CASCADE;
+ 
+ALTER TABLE ItemDaCompra ADD CONSTRAINT FK_ItemDaCompra_3
+    FOREIGN KEY (fk_Compra_id_compra)
+    REFERENCES Compra (id_compra)
+    ON DELETE RESTRICT;
+ 
+ALTER TABLE FormasDePagamento ADD CONSTRAINT FK_FormasDePagamento_2
+    FOREIGN KEY (fk_Venda_id_venda)
+    REFERENCES Venda (id_venda)
+    ON DELETE RESTRICT;
+ 
+ALTER TABLE possui ADD CONSTRAINT FK_possui_1
+    FOREIGN KEY (fk_Livro_id_livro)
+    REFERENCES Livro (id_livro)
+    ON DELETE RESTRICT;
+ 
+ALTER TABLE possui ADD CONSTRAINT FK_possui_2
+    FOREIGN KEY (fk_Autor_id_autor)
+    REFERENCES Autor (id_autor)
+    ON DELETE RESTRICT;
+ 
+ALTER TABLE contem ADD CONSTRAINT FK_contem_1
+    FOREIGN KEY (fk_Categoria_id_categoria)
+    REFERENCES Categoria (id_categoria)
+    ON DELETE RESTRICT;
+ 
+ALTER TABLE contem ADD CONSTRAINT FK_contem_2
+    FOREIGN KEY (fk_Livro_id_livro)
+    REFERENCES Livro (id_livro)
     ON DELETE SET NULL;
- 
-ALTER TABLE Atualiza ADD CONSTRAINT FK_Atualiza_1
-    FOREIGN KEY (fk_Historico_estoque_id_historico_estoque)
-    REFERENCES Historico_estoque (id_historico_estoque)
-    ON DELETE RESTRICT;
- 
-ALTER TABLE Atualiza ADD CONSTRAINT FK_Atualiza_2
-    FOREIGN KEY (fk_Produto_Iten_pedido_id_produto, fk_Produto_Iten_pedido_id_item_pedido)
-    REFERENCES Produto_Iten_pedido (id_produto, id_item_pedido)
-    ON DELETE SET NULL;
- 
-ALTER TABLE Efetua ADD CONSTRAINT FK_Efetua_1
-    FOREIGN KEY (fk_Pedido_id_pedido)
-    REFERENCES ??? (???);
- 
-ALTER TABLE Efetua ADD CONSTRAINT FK_Efetua_2
-    FOREIGN KEY (fk_Pagamento_id_pagamento)
-    REFERENCES Pagamento (id_pagamento)
-    ON DELETE RESTRICT;
- 
-ALTER TABLE Administra ADD CONSTRAINT FK_Administra_1
-    FOREIGN KEY (fk_Estoque _id_estoque)
-    REFERENCES Estoque  (id_estoque)
-    ON DELETE RESTRICT;
- 
-ALTER TABLE Administra ADD CONSTRAINT FK_Administra_2
-    FOREIGN KEY (fk_Administrador_id_administrador)
-    REFERENCES Administrador (id_administrador)
-    ON DELETE RESTRICT;
