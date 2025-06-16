@@ -1,59 +1,47 @@
 # 📚 Modelagem de Banco de Dados - Livraria
 
-Este repositório contém a modelagem de banco de dados de uma **livraria**, criada utilizando o software **BrModelo 3**. O projeto abrange as três fases principais da modelagem: **conceitual**, **lógica** e **física**.
+Este repositório contém a modelagem de banco de dados para uma **livraria**, com foco nas etapas de **modelagem lógica e física**, implementadas em SQL. O objetivo é estruturar os dados necessários para o gerenciamento completo de vendas, estoque, clientes, avaliações de livros, pagamentos e devoluções.
 
-## 📁 Arquivo do Projeto
+## 📂 Arquivo do Projeto
 
-🗂️ `livraria.brM3`  
-Arquivo do projeto criado no BrModelo 3. Abra esse arquivo no software para visualizar os diagramas e realizar alterações.
-
----
-
-## 🧠 Modelo Conceitual
-
-O modelo conceitual foi elaborado utilizando o **Modelo Entidade-Relacionamento (MER)**. Ele apresenta as principais entidades envolvidas na operação da livraria e seus relacionamentos.
-
-### Entidades:
-- `Livro`
-- `Cliente`
-- `Venda`
-- `Funcionário`
-- `Fornecedor`
-- `FormaPagamento`
-- `Compra`
-
-### Relacionamentos:
-- Um `Cliente` pode realizar várias `Vendas`.
-- Cada `Venda` pode ser paga com uma ou mais `Formas de Pagamento`.
-- Um `Livro` pode ser fornecido por vários `Fornecedores`.
-- Uma `Compra` é feita por um `Funcionário` e envolve um ou mais `Livros`.
+- `LivrariaFisico.sql`: Script SQL com a definição completa do banco de dados (tabelas, atributos, chaves primárias e estrangeiras).
 
 ---
 
 ## 🧮 Modelo Lógico
 
-O modelo lógico transforma o modelo conceitual em tabelas, com definição de atributos, chaves primárias (PK) e estrangeiras (FK).
+O modelo lógico define a estrutura e os relacionamentos das tabelas da livraria, adaptando o modelo conceitual para o formato relacional.
 
-### Exemplos de tabelas:
-- **Livro** (`id_livro`, `titulo`, `autor`, `preco`, `estoque`)
-- **Cliente** (`id_cliente`, `nome`, `cpf`, `telefone`)
-- **Venda** (`id_venda`, `data`, `id_cliente`, `id_funcionario`)
-- **Fornecedor** (`id_fornecedor`, `nome`, `cnpj`)
-- **FormaPagamento** (`id_forma`, `tipo`)
-- **Compra** (`id_compra`, `data`, `id_funcionario`, `id_fornecedor`)
+### Principais Tabelas
+
+- **Cliente**: Armazena dados pessoais do cliente e chave estrangeira para endereço.
+- **Produto_Iten_pedido**: Une informações de livros com pedidos, armazenando quantidade, preço e estoque.
+- **Estoque** e **Historico_estoque**: Controlam a disponibilidade e movimentação de produtos.
+- **Pagamento**: Registra forma, valor e status do pagamento.
+- **Historico_pedido_Pedido**: Representa o pedido e seu histórico de status.
+- **Administrador**: Controle de acesso e operações internas.
+- **Cupom** e **Campanhas_de_marketing**: Promoções vinculadas a campanhas específicas.
+- **Avaliacao_do_produto**: Avaliações e comentários feitos pelos clientes sobre os produtos.
+- **Devolucao**: Gerencia as devoluções dos pedidos.
+- **Endereco**: Endereços associados aos clientes.
 
 ---
 
 ## 🏗️ Modelo Físico
 
-O modelo físico é a implementação do banco de dados em SQL. Ele define os comandos `CREATE TABLE`, restrições de integridade e relacionamentos com `FOREIGN KEY`.
+O modelo físico está implementado em SQL, com as seguintes características:
 
-### Exemplo de criação de tabela:
+- Criação das tabelas com `CREATE TABLE`
+- Tipagem de dados (`INT`, `VARCHAR`, `FLOAT`, `DATE`)
+- Definição de **chaves primárias**
+- Criação de **chaves estrangeiras** com regras de integridade (`ON DELETE CASCADE`, `RESTRICT`, `SET NULL` etc.)
+
+### Exemplo de tabela: `Cliente`
 ```sql
-CREATE TABLE Livro (
-  id_livro INT PRIMARY KEY AUTO_INCREMENT,
-  titulo VARCHAR(100) NOT NULL,
-  autor VARCHAR(100),
-  preco DECIMAL(8,2),
-  estoque INT
+CREATE TABLE Cliente (
+    id_cliente INT PRIMARY KEY,
+    nome VARCHAR,
+    email VARCHAR,
+    telefone VARCHAR,
+    fk_endereco_endereco_PK INT
 );
